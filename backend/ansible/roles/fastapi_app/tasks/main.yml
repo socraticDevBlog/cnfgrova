@@ -1,0 +1,22 @@
+- name: Install required system packages
+  apt:
+    name:
+      - python3
+      - python3-pip
+      - python3-venv
+      - pipenv
+      - nginx
+    state: present
+
+- name: Install pipenv using pip
+  command: pip3 install pipenv --break-system-packages
+
+- name: Force handlers to run
+  meta: flush_handlers
+
+- name: Dummy task to trigger handlers
+  command: echo "Triggering handlers"
+  notify:
+    - Verify Python version
+    - Verify Nginx version
+    - Verify pipenv installation
